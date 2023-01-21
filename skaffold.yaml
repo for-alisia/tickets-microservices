@@ -5,7 +5,7 @@ deploy:
     manifests:
       - ./infra/k8s/*
 build:
-  googleCouldBuid:
+  googleCloudBuild:
     projectId: ticketing-dev-375410
   artifacts:
     - image: us.gcr.io/ticketing-dev-375410/auth
