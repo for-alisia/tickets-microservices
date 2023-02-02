@@ -1,14 +1,22 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
+import { body, validationResult } from 'express-validator';
 
 const router = express.Router();
 
-router.post('/api/users/signup', (req, res) => {
+router.post('/api/users/signup', [
+  body('email').isEmail().withMessage('email is not valid'),
+  body('password').trim().isLength({ min: 4, max: 20 }).withMessage('password should be between 4 and 20')
+], (req: Request, res: Response) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   const { email, password } = req.body;
 
-  if (!email || typeof email !== 'string') {
-    res.status(400).send('Provide a valid email');
-  }
-  res.send('Sign in service');
+  console.log(`Created user with ${email}`);
+
+  res.json({});
 });
 
 export { router as signupRouter };
